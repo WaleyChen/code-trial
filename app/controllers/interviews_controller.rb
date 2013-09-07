@@ -31,6 +31,35 @@ class InterviewsController < ApplicationController
     redirect_to root_path
   end
 
-  def test_code(codestring)
+  def test_code
+    code = params[:codearea]
+    run_code = <<-HDOC
+
+fizzbuzztests = [ { call: "fizzbuzz(3)", out: 'fizz' } ,
+            { call: "fizzbuzz(5)", out: 'buzz' },
+            { call: "fizzbuzz(15)",  out: 'fizzbuzz' } ,
+            { call: "fizzbuzz(7)",  out: '' } ]
+final_res = []
+fizzbuzztests.each_with_index do |test, index|
+  retval = eval(test[:call])
+  if retval == test[:out]
+    final_res += [{ status: true, text: "Test " + index.to_s + " passed OK!" }]
+  else
+    final_res += [{ status: false, text: "Test " + index.to_s + " failed! Expected '" + test[:out] + "', got '" + retval + "' for " + test[:call] }]
+  end
+end
+final_res
+HDOC
+
+  begin
+    lambda do
+      render json: eval(code + run_code)
+    end.call
+  rescue Exception => e
+    render json: { status: false, text: e.message }
+  end
+
+
+  
   end
 end
