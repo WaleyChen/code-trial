@@ -1,11 +1,17 @@
 .container
   .row
+    .span12
+      .well
+        %h1 PROBLEM GOES HERE
+  .row
     .span8
       .well
-        %h1 VIDEO GOES HERE
-        #videoplaceholder
         %textarea{autofocus: "true", id: "codearea", rows: 10, cols: 20}
           alert("hello");
+        .pull-right
+          .btn.btn-large.btn-success Test
+          .btn.btn-large.btn-success Finish
+          .clearfix
     .span4
       .well
         %h1 CODE STATUS
@@ -13,3 +19,4 @@
           %strong Error!
           Your code sucks.
           Failed on test case #8.
+        
