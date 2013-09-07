@@ -9,8 +9,8 @@
         %tbody#interviews
             - @interviews.each do |interview|
                 %tr{:href => interview_path(interview)}
-                    %td= "Vikrem"
-                    %td="hello"
+                    %td= ["Eddie", "Waley", "Hong", "Vikrem"].sample(1)[0]
+                    %td= "hello"
 
 :javascript
     $(document).ready(function() { 
