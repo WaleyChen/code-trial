@@ -68,6 +68,7 @@ window.startBtnClick = startBtnClick;
       .span8
         .well
           .progress.progress-striped
+            <<< Starting in...
             .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
