@@ -7,6 +7,7 @@ class InterviewsController < ApplicationController
   end
 
   def show
+    @interview = Interview.where(:id => params[:id]).first
   end
 
   def new
