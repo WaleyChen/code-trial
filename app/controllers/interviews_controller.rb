@@ -27,6 +27,8 @@ class InterviewsController < ApplicationController
     puts 'ASDFASDFASDF'
     puts params[:interview]
     @interview = Interview.new(params[:interview])
+    puts @interview.id
+    puts @interview.inspect
     puts @interview
     @interview.save
 
