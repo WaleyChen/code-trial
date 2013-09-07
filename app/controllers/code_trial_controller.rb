@@ -5,6 +5,6 @@ class CodeTrialController < ApplicationController
 
     def show
         codeTrial = CodeTrial.where(:id => params[:id]).first
-        @questions = codeTrial.questions
+        @questions = codeTrial.questions.all
     end
 end

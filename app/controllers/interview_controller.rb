@@ -1,5 +1,8 @@
 class InterviewController < ApplicationController
 
-  def index
-  end
+    def get
+    end
+
+    def index
+    end
 end
