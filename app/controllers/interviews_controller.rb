@@ -24,12 +24,12 @@ class InterviewsController < ApplicationController
   end
 
   def create
-    puts 'ASDFASDFASDF'
+    puts 'ASDF'
     puts params[:interview]
-    @interview = Interview.new(params[:interview])
+    @interview = Interview.last
+    @interview.update_attributes(params[:interview])
     puts @interview.id
     puts @interview.inspect
-    puts @interview
     @interview.save
 
     flash[:notice] = "Your interview was submitted successfully."
