@@ -17,13 +17,15 @@
 
 <div class='navbar navbar-inner navbar-fixed-top'>
 <div id="navbar-container" class='container'>
-<a class='brand head-text'>CodeTrial</a>
+<a class='brand head-text' href="<%= root_path %>">CodeTrial</a>
 <div class='pull-right'>
-<a class='brand head-text'>EMPLOYERS</a>
-<a class='brand head-text'>STUDENTS</a>
+<a class='brand head-text' href="<%= new_interview_path %>">Start</a>
+<a class='brand head-text' href="<%= interviews_path %>">Evaluate</a>
 </div>
 </div>
 </div>
+
+<br>
 
 <%= yield %>
 
