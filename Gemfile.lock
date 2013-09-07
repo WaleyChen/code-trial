@@ -33,6 +33,8 @@ GEM
     bson_ext (1.6.2)
       bson (~> 1.6.2)
     builder (3.0.4)
+    codemirror-rails (2.35)
+      railties (~> 3.0)
     coffee-rails (3.2.2)
       coffee-script (>= 2.2.0)
       railties (~> 3.2.0)
@@ -133,6 +135,7 @@ PLATFORMS
 
 DEPENDENCIES
   bson_ext
+  codemirror-rails
   coffee-rails (~> 3.2.1)
   haml-rails
   jquery-rails
