@@ -69,15 +69,16 @@ window.startBtnClick = startBtnClick;
         .well
           .progress.progress-striped
             .bar{ :style=> "width: 100%;"}
-          = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+          = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
+            #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
             #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
             #code-submit.btn.btn-stylish.btn-large.btn-danger{ style: "width:70px;display:none;" } Finish
             .hidden
               = f.submit :id => "submit-btn"
           .clearfix
       .span4
-        .well
+        #code-feedback.well
           %h1#show-log CODE STATUS
           .alert.alert-error
             %strong Error!
@@ -143,6 +144,29 @@ window.startBtnClick = startBtnClick;
         log.push(text)
         times.push(counter)
       counter++
+
+    removeFeedback = () -> 
+      elem = $('#code-feedback > .alert:first')
+      if(elem.length == 0)
+        return
+      elem.slideUp(1000, () ->
+        elem.remove()
+        removeFeedback())
+
+    makenotice = (jsonData) -> 
+      jsonData = [].concat jsonData
+      for testresult in jsonData
+        styles = ""
+        if (testresult.status == true)
+          styles = "alert alert-success"
+        else
+          styles = "alert alert-error"
+        $('#code-feedback').append("<div class=\"" + styles + "\">" + testresult.text + "</div>")
+        setTimeout( removeFeedback, 5000)
+
+    $('#test-btn').on("click", () ->
+      code = cm.getValue()
+      $.ajax( url: "/testCode", type: 'POST', data: { codearea: code } ).done( (a,b,data) -> makenotice( $.parseJSON(data.responseText))))
 
     start_recording = ->
       timer = setInterval(polling_text, polling_interval)
