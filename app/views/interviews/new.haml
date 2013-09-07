@@ -32,11 +32,8 @@ Twilio.Device.disconnectAll();
 function startBtnClick() {
 if ($("#start-btn").text() == "Start") {
 call();
-
-$("#start-btn").text("Finish");
-$("#start-btn").removeClass("btn-success");
-$("#start-btn").addClass("btn-danger");
-$("#start-btn").attr("type","submit");
+$("#start-btn").hide();
+$("#code-submit").show();
 window.endProgressBar();
 } else {
 hangup();
@@ -50,6 +47,8 @@ window.startBtnClick = startBtnClick;
 </script>
 
 %input#interview-id{type:"hidden", value:"#{@interview.id}"}
+
+= @interview.id
 
 .container
   = form_for @interview, :html=>{:class=>"code_form"} do |f|
@@ -74,6 +73,7 @@ window.startBtnClick = startBtnClick;
           .pull-right{style: "margin-top:15px;"}
             #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
             #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
+            #code-submit.btn.btn-stylish.btn-large.btn-danger{ style: "width:70px;display:none;" } Finish
             .hidden
               = f.submit :id => "submit-btn"
           .clearfix
@@ -102,13 +102,16 @@ window.startBtnClick = startBtnClick;
     first_time = 0
     times = []
 
-    $('.code_form *[type="submit"]').click( (e) ->
+    code_form_submit = ->
+      $('.code_form').submit()
+
+    $('.code_form #code-submit').click( (e) ->
       console.log(log)
       console.log(JSON.stringify(log))
       e.preventDefault()
       $('.code_form .hidden_code_changes').val(JSON.stringify(log))
       $('.code_form .hidden_code_timestamps').val(JSON.stringify(times))
-      $('.code_form').submit()
+      setTimeout(code_form_submit, 300)
       # $.ajax(
       #   url: '#{record_path}'
       #   type: 'POST'
