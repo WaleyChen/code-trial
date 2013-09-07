@@ -24,8 +24,8 @@ class InterviewsController < ApplicationController
   end
 
   def create
-    @interview = Interview.new(params[:interview])
-    @interview.save
+    # @interview = Interview.new(params[:interview])
+    # @interview.save
 
     flash[:notice] = "Your interview was submitted successfully."
     redirect_to root_path
