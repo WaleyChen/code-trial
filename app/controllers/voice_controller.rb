@@ -19,4 +19,6 @@ class VoiceController < ApplicationController
                 <Record maxLength=\"20\" />
             </Response>"
     end
+
+    # <Record timeout="60" transcribe="true" />
 end
