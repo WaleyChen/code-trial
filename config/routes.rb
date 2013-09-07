@@ -60,4 +60,6 @@ SuperRailsBoilerplate::Application.routes.draw do
   resources :interviews
   get 'voice' => 'voice#twilio'
   get 'recordVoice' => 'voice#recordVoice'
+
+  match 'record/' => 'interviews#record', :as => 'record'
 end

@@ -6,12 +6,14 @@
   .row
     .span8
       .well
-        %textarea.poll-target{autofocus: "true", id: "codearea", rows: 10, cols: 20}
-          alert("hello");
-        .pull-right{style: "margin-top:15px;"}
-          .btn.btn-large.btn-warning{style: "margin-right:9px; width:70px;"} Test
-          .btn.btn-large.btn-success{type: "submit", style: "width:70px;"} Finish
-        .clearfix
+        %form.code_form{action:interviews_path, method:"post", style:"margin-bottom:0;"}
+          = hidden_field_tag(request_forgery_protection_token.to_s, form_authenticity_token)
+          %textarea.poll-target#codearea{autofocus: "true", rows: 10, cols: 20}
+            alert("hello");
+          .pull-right{style: "margin-top:15px;"}
+            %input.btn.btn-large.btn-warning{style: "margin-right:9px; width:70px;", value: "Test"}
+            %input.btn.btn-large.btn-success{type: "submit", value: "Finish", style: "width:100px;"}
+          .clearfix
     .span4
       .well
         %h1 CODE STATUS
@@ -20,52 +22,3 @@
           Your code sucks.
           Failed on test case #8.
 
-:javascript
-  $(function() {
-
-    /* START RECORDING KEYSTROKES */
-    // Detect when to start polling
-    $('.poll-target').bind('input propertychange', function() {
-      if (first_time == 0) {
-        start_recording();
-      }
-      first_time = 1;
-    });
-
-    function start_recording() { timer = setInterval(polling_text, polling_interval); }
-
-    // Saving the polled text
-    function polling_text() {
-      var text = $('.poll-target').val();
-      var last = log[log.length-1];
-      if (text != last) {
-        log.push(text);
-        times.push(counter);
-      }
-      counter++;
-    }
-    
-    // Replay the logged
-    $('.poll-replay').click(function() {
-      times.reverse();
-      log.reverse();
-      clearInterval(timer);
-      $('.poll-target2').val('');
-
-      var replay_text;
-      var counter2=0;
-
-      function replay() {
-        $('.poll-target2').val(replay_text);
-        if (times.length > 0 && counter2 == times[times.length-1]) {
-          // times[times.length-1]
-          times.pop();
-          replay_text = log.pop();
-        }
-        counter2++;
-      }
-      setInterval(replay, polling_interval);
-    });
-    /* END RECORDING KEYSTROKES */
-
-  });
