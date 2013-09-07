@@ -27,6 +27,8 @@ class VoiceController < ApplicationController
         interview = Interview.where(:call_sid => params[:CallSid]).first
         interview.voice = params[:RecordingUrl]
         interview.save
+
+        render :nothing => true, :status => 200
     end
 
 end
