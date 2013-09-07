@@ -12,6 +12,6 @@
 :javascript
     $(document).ready(function() { 
         $("tr").click( function(event) {
-            window.open($(this).attr('href'))
+            window.open($(this).attr('href'), '_self', false)
         });
     });
