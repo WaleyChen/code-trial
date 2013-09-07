@@ -6,12 +6,11 @@
   .row
     .span8
       .well
-        %textarea#poll-target{autofocus: "true", id: "codearea", rows: 10, cols: 20}
+        %textarea.poll-target{autofocus: "true", id: "codearea", rows: 10, cols: 20}
           alert("hello");
         .pull-right{style: "margin-top:15px;"}
           .btn.btn-large.btn-warning{style: "margin-right:9px; width:70px;"} Test
           .btn.btn-large.btn-success{type: "submit", style: "width:70px;"} Finish
-          .clearfix
         .clearfix
     .span4
       .well
@@ -26,7 +25,7 @@
 
     /* START RECORDING KEYSTROKES */
     // Detect when to start polling
-    $('#poll-target').bind('input propertychange', function() {
+    $('.poll-target').bind('input propertychange', function() {
       if (first_time == 0) {
         start_recording();
       }
@@ -37,7 +36,7 @@
 
     // Saving the polled text
     function polling_text() {
-      var text = $('#poll-target').val();
+      var text = $('.poll-target').val();
       var last = log[log.length-1];
       if (text != last) {
         log.push(text);
@@ -47,17 +46,17 @@
     }
     
     // Replay the logged
-    $('#poll-replay').click(function() {
+    $('.poll-replay').click(function() {
       times.reverse();
       log.reverse();
       clearInterval(timer);
-      $('#poll-target2').val('');
+      $('.poll-target2').val('');
 
       var replay_text;
       var counter2=0;
 
       function replay() {
-        $('#poll-target2').val(replay_text);
+        $('.poll-target2').val(replay_text);
         if (times.length > 0 && counter2 == times[times.length-1]) {
           // times[times.length-1]
           times.pop();
