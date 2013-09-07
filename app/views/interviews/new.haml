@@ -59,7 +59,7 @@ window.startBtnClick = startBtnClick;
   .row
     .span8
       .well
-        = form_tag "/hello" do
+        = form_tag testCode_path do
           = text_area_tag(:codearea, "alert('hello');", { autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
             = submit_tag "Test", class: "btn btn-stylish btn-large btn-warning", style: "margin-right:9px; width:70px;"
