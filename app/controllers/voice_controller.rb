@@ -24,7 +24,9 @@ class VoiceController < ApplicationController
     end
 
     def finishedRecording
-
+        interview = Interview.where(:call_sid => params[:CallSid]).first
+        interview.voice = params[:RecordingUrl]
+        interview.save
     end
 
 end
