@@ -60,4 +60,5 @@ SuperRailsBoilerplate::Application.routes.draw do
   resources :interviews
   get 'voice' => 'voice#twilio'
   get 'recordVoice' => 'voice#recordVoice'
+  post 'finishedRecording' => 'voice#finishedRecording'
 end
