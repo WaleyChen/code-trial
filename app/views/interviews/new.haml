@@ -36,6 +36,7 @@ call();
 $("#start-btn").text("Finish");
 $("#start-btn").removeClass("btn-success");
 $("#start-btn").addClass("btn-danger");
+$("#start-btn").attr("type","submit");
 } else {
 hangup();
 $("#submit-btn").click();
@@ -47,12 +48,12 @@ window.startBtnClick = startBtnClick;
 });
 </script>
 
+%input#interview-id{type:"hidden", value:"#{@interview.id}"}
+
 .container
-  = form_for @interview do |f|
-    .row
-      .span12
-        .well
-          = f.text_field :name, :placeholder => 'Name'
+  = form_for @interview, :html=>{:class=>"code_form"} do |f|
+    = f.hidden_field :code_changes, :class=>"hidden_code_changes"
+    = f.hidden_field :code_timestamps, :class=>"hidden_code_timestamps"
     .row
       .span12
         .well
@@ -69,74 +70,148 @@ window.startBtnClick = startBtnClick;
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
             #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
-            #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
+            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
               = f.submit :id => "submit-btn"
           .clearfix
       .span4
-        .well
-          %h1 CODE STATUS
+        #code-feedback.well
+          %h1#show-log CODE STATUS
           .alert.alert-error
             %strong Error!
             Your code sucks.
             Failed on test case #8.
 
+:coffeescript
+  $(document).ready ->
+    cm = CodeMirror.fromTextArea(
+      $('#codearea').get(0),
+      {
+        theme: "monokai"
+        mode: "ruby"
+        onChange: (c,i) ->
+          $('#codearea').text(cm.getValue())
+      })
+
+    counter = 0
+    log = []
+    polling_interval = 3
+    first_time = 0
+    times = []
+
+    $('.code_form *[type="submit"]').click( (e) ->
+      console.log(log)
+      console.log(JSON.stringify(log))
+      e.preventDefault()
+      $('.code_form .hidden_code_changes').val(JSON.stringify(log))
+      $('.code_form .hidden_code_timestamps').val(JSON.stringify(times))
+      $('.code_form').submit()
+      # $.ajax(
+      #   url: '#{record_path}'
+      #   type: 'POST'
+      #   beforeSend: (xhr) -> xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+      #   data: {
+      #     'id': $('#interview-id').val(),
+      #     'code_changes': JSON.stringify(log),
+      #     'code_timestamps': JSON.stringify(times)
+      #   }
+      #   success: (response) ->
+      #     $('#someDiv').html(response)
+      # )
+    )
+
+    $('#show-log').click( ->
+      console.log(log);
+      console.log(times);
+    )
+
+    # Saving the polled text
+    polling_text = ->
+      # text = $('.poll-target').val()
+      text = cm.getValue();
+      # console.log(text);
+      # console.log(log.length-1)
+      last = log[log.length-1]
+
+      if (text != last)
+        console.log(text)
+        log.push(text)
+        times.push(counter)
+      counter++
+
+    removeFeedback = () -> 
+      elem = $('#code-feedback > .alert:first')
+      if(elem.length == 0)
+        return
+      elem.slideUp(1000, () ->
+        elem.remove()
+        removeFeedback())
+
+    makenotice = (jsonData) -> 
+      jsonData = [].concat jsonData
+      for testresult in jsonData
+        styles = ""
+        if (testresult.status == true)
+          styles = "alert alert-success"
+        else
+          styles = "alert alert-error"
+        $('#code-feedback').append("<div class=\"" + styles + "\">" + testresult.text + "</div>")
+        setTimeout( removeFeedback, 5000)
+
+    $('#test-btn').on("click", () ->
+      code = cm.getValue()
+      $.ajax( url: "/testCode", type: 'POST', data: { codearea: code } ).done( (a,b,data) -> makenotice( $.parseJSON(data.responseText))))
+
+    start_recording = ->
+      timer = setInterval(polling_text, polling_interval)
+      console.log('Starting to record!')
+
+    if (first_time == 0)
+      start_recording()
+    first_time = 1
+    
+    # Replay the logged
+    $('.poll-replay').click( () ->
+      times.reverse()
+      log.reverse()
+      clearInterval(timer)
+      $('.poll-target2').val('')
+
+      replay_text
+      counter2 = 0
+
+      replay = ->
+        $('.poll-target2').val(replay_text)
+        if (times.length > 0 && counter2 == times[times.length-1])
+          # times[times.length-1]
+          times.pop()
+          replay_text = log.pop()
+        counter2++
+      setInterval(replay, polling_interval)
+    )
+
+    toggleBtn = (event) ->
+      event.preventDefault()
+      btn = $(this)
+      if btn.text() == "PLAY"
+        btn.text("STOP")
+        btn.removeClass("btn-success")
+        btn.addClass("btn-danger")
+        rec.play()
+      else
+        btn.text("PLAY")
+        btn.removeClass("btn-danger")
+        btn.addClass("btn-success")
+        rec.pause()
+
+    rec = $("#recording")[0]
+    $("#slider").slider(
+      change: (event, ui) ->
+        rec.currentTime = rec.duration * ui.value / 100
+    )
+    
+    $("#play-stop-btn").click(toggleBtn)
+
 :javascript
   $(function() {
-    var cm = CodeMirror.fromTextArea($('#codearea').get(0), {
-    theme: "monokai",
-    mode: "ruby"
-  });
-
-    /* START RECORDING KEYSTROKES */
-    // Detect when to start polling
-    $('.poll-target').bind('input propertychange', function() {
-      if (first_time == 0) {
-        start_recording();
-      }
-      first_time = 1;
-    });
-
-    var makenotice = alert
-    $('#test-btn').on("click", function() {
-      var code = cm.getValue();
-      $.ajax({url: "/testCode", type: 'POST', data: { codearea: code } } ).done( function(a,b,data) { makenotice( $.parseJSON(data.responseText)) });
-    });
-
-    function start_recording() { timer = setInterval(polling_text, polling_interval); }
-
-    // Saving the polled text
-    function polling_text() {
-      var text = $('.poll-target').val();
-      var last = log[log.length-1];
-      if (text != last) {
-        log.push(text);
-        times.push(counter);
-      }
-      counter++;
-    }
-    
-    // Replay the logged
-    $('.poll-replay').click(function() {
-      times.reverse();
-      log.reverse();
-      clearInterval(timer);
-      $('.poll-target2').val('');
-
-      var replay_text;
-      var counter2=0;
-
-      function replay() {
-        $('.poll-target2').val(replay_text);
-        if (times.length > 0 && counter2 == times[times.length-1]) {
-          // times[times.length-1]
-          times.pop();
-          replay_text = log.pop();
-        }
-        counter2++;
-      }
-      setInterval(replay, polling_interval);
-    });
-    /* END RECORDING KEYSTROKES */
-
   });

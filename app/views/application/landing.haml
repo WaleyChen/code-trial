@@ -1,8 +1,9 @@
+- if flash[:notice]
+  #flash.alert.alert-success= "#{ flash[:notice] }"           
+
 .container#landing
   .row
     .span12
-      - if flash[:notice]
-        #flash.alert.alert-success= "#{ flash[:notice] }"
       .landing
         %h1 CODE TRIAL
         %h3 CODING INTERVIEWS DONE RIGHT

@@ -24,6 +24,8 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 end
 
+gem 'coffee-filter'
+
 gem 'codemirror-rails'
 
 gem 'jquery-rails'

@@ -24,8 +24,11 @@ class InterviewsController < ApplicationController
   end
 
   def create
-    # @interview = Interview.new(params[:interview])
-    # @interview.save
+    puts 'ASDFASDFASDF'
+    puts params[:interview]
+    @interview = Interview.new(params[:interview])
+    puts @interview
+    @interview.save
 
     flash[:notice] = "Your interview was submitted successfully."
     redirect_to root_path
@@ -61,5 +64,13 @@ HDOC
 
 
   
+  end
+
+  def record
+    code_changes = params["code_changes"]
+    code_timestamps = params["code_timestamps"]
+    puts 'params',params
+    puts 'code_changes',code_changes
+    puts 'code_timestamps',code_timestamps
   end
 end
