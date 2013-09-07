@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
   <head>
     <title>Hello Client Monkey 1</title>
@@ -9,34 +10,45 @@
     <link href="//static0.twilio.com/packages/quickstart/client.css"
       type="text/css" rel="stylesheet" />
     <script type="text/javascript">
-  
-    /* Create the Client with a Capability @token */
+ 
     Twilio.Device.setup("<%= @token %>", {debug: true});
  
-    /* Let us know when the client is ready. */
     Twilio.Device.ready(function (device) {
         $("#log").text("Ready");
     });
- 
-    /* Report any errors on the screen */
+  
     Twilio.Device.error(function (error) {
         $("#log").text("Error: " + error.message);
     });
- 
+  
     Twilio.Device.connect(function (conn) {
         $("#log").text("Successfully established call");
     });
  
-    /* Connect to Twilio when we call this function. */
+    /* Log a message when a call disconnects. */
+    Twilio.Device.disconnect(function (conn) {
+        $("#log").text("Call ended");
+    });
+ 
     function call() {
         Twilio.Device.connect();
     }
-    </script>
-  </head>
-  <body>
  
+    /* A function to end a connection to Twilio. */
+    function hangup() {
+        Twilio.Device.disconnectAll();
+    }
+    </script>
+</head>
+<body>
     <button class="call" onclick="call();">
       Call
+    </button>
+ 
+    <!-- use an onclick action to hang up the call when the user presses
+    the button -->
+    <button class="hangup" onclick="hangup();">
+        Hangup
     </button>
   
     <div id="log">Loading pigeons...</div>
