@@ -13,7 +13,7 @@ class VoiceController < ApplicationController
     end
 
     def recordVoice
-        interview = Interview.last
+        interview = Interview.where(:call_id=>nil).last
         interview.call_sid = params[:CallSid]
         interview.save
 
