@@ -3,6 +3,7 @@
 = javascript_include_tag 'codemirror/modes/javascript'
 
 <script type="text/javascript">
+
 var token = "#{ @token }";
 
 $( document ).ready(function() {
@@ -79,6 +80,10 @@ window.startBtnClick = startBtnClick;
 
 :javascript
   $(function() {
+    CodeMirror.fromTextArea($('#codearea').get(0), {
+    theme: "monokai",
+    mode: "ruby"
+  });
 
     /* START RECORDING KEYSTROKES */
     // Detect when to start polling
