@@ -68,6 +68,7 @@ window.startBtnClick = startBtnClick;
         .well
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
+            #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
             #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
               = f.submit :id => "submit-btn"
@@ -82,7 +83,7 @@ window.startBtnClick = startBtnClick;
 
 :javascript
   $(function() {
-    CodeMirror.fromTextArea($('#codearea').get(0), {
+    var cm = CodeMirror.fromTextArea($('#codearea').get(0), {
     theme: "monokai",
     mode: "ruby"
   });
@@ -94,6 +95,12 @@ window.startBtnClick = startBtnClick;
         start_recording();
       }
       first_time = 1;
+    });
+
+    var makenotice = alert
+    $('#test-btn').on("click", function() {
+      var code = cm.getValue();
+      $.ajax({url: "/testCode", type: 'POST', data: { codearea: code } } ).done( function(a,b,data) { makenotice( $.parseJSON(data.responseText)) });
     });
 
     function start_recording() { timer = setInterval(polling_text, polling_interval); }
