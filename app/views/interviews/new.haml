@@ -28,7 +28,24 @@ function hangup() {
 Twilio.Device.disconnectAll();
 }
 
+function startBtnClick() {
+if ($("#start-btn").text() == "Start") {
+call();
+
+$("#start-btn").text("Finish");
+$("#start-btn").removeClass("btn-success");
+$("#start-btn").addClass("btn-danger");
+} else {
+hangup();
+
+$("#start-btn").text("Start")
+$("#start-btn").removeClass("btn-danger");
+$("#start-btn").addClass("btn-success");
+}
+}
+
 window.call = call;
+window.startBtnClick = startBtnClick;
 });
 </script>
 
@@ -44,7 +61,7 @@ window.call = call;
           alert("hello");
         .pull-right{style: "margin-top:15px;"}
           .btn.btn-stylish.btn-large.btn-warning{style: "margin-right:9px; width:70px;"} Test
-          .btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "call();" } Start
+          #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
         .clearfix
     .span4
       .well
