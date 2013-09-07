@@ -3,3 +3,5 @@
   %audio{:controls => "controls", :id => "recording"}
     %source{:src => @interview.voice, :type => "audio/mpeg"}
   = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
+  %h3 Transcription
+  = @interview.transcription 

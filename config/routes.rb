@@ -61,5 +61,6 @@ SuperRailsBoilerplate::Application.routes.draw do
   get 'voice' => 'voice#twilio'
   get 'recordVoice' => 'voice#recordVoice'
   post 'finishedRecording' => 'voice#finishedRecording'
+  post 'transcribeCallback' => 'voice#transcribeCallback'
   post 'testCode' => 'interviews#test_code'
 end

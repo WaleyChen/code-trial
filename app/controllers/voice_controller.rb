@@ -19,7 +19,7 @@ class VoiceController < ApplicationController
 
         render xml: "
             <Response>
-                <Record timeout=\"60\" transcribe=\"true\" action=\"http://codetrial.herokuapp.com/finishedRecording\"/>
+                <Record timeout=\"60\" transcribe=\"true\" action=\"http://codetrial.herokuapp.com/finishedRecording\" transcribeCallback=\"http://codetrial.herokuapp.com/transcribeCallback\" />
             </Response>"
     end
 
@@ -27,6 +27,16 @@ class VoiceController < ApplicationController
         interview = Interview.where(:call_sid => params[:CallSid]).first
         interview.voice = params[:RecordingUrl]
         interview.save
+
+        render :nothing => true, :status => 200
+    end
+
+    def transcribeCallback
+        interview = Interview.where(:call_sid => params[:CallSid]).first
+        interview.transcription = params[:TranscriptionText]
+        interview.save
+
+        render :nothing => true, :status => 200
     end
 
 end
