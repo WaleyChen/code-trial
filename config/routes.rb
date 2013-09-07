@@ -62,4 +62,5 @@ SuperRailsBoilerplate::Application.routes.draw do
   get 'recordVoice' => 'voice#recordVoice'
 
   match 'record/' => 'interviews#record', :as => 'record'
+  post 'finishedRecording' => 'voice#finishedRecording'
 end

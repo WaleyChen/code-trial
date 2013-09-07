@@ -2,8 +2,13 @@ class Interview
   include Mongoid::Document
 
   field :name
+  field :time
+
   field :question
+
+  field :call_sid
   field :voice
+
   field :code_changes
   field :code_timestamps
 

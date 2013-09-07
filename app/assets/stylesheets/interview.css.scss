@@ -1,36 +1,39 @@
-// Place all the styles related to the Interview controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.btn {
+  margin-top: 5px;
+}
 
+#flash {
+  text-align: center;
+}
 
-.container
-{
+#test-btn {
+  margin-right: 5px;
+}
+
+.container {
   padding-top: 40px;
 }
 
-#videoplaceholder
-{
-  width: 640px;
-  height: 480px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #AAA;
+.btn-stylish {
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
-#home {
-    #desc {
+.landing {
+  text-align: center;
+  margin: 50px;
 
-    }
-
-    #title {
-        font-weight: bold;
-    }
-
-    form {
-        display: inline-block;
-    }
+  h1 {
+    font-size: 50px;
+    font-weight: bold;
+    margin: 30px;
+  }
 }
 
 .clearfix {
   clear: both;
+}
+
+tr:hover {
+  cursor: pointer;
 }

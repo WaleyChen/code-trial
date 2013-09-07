@@ -1,24 +1,191 @@
-.container
-  .row
-    .span12
-      .well
-        %h1 PROBLEM GOES HERE
-  .row
-    .span8
-      .well
-        %form.code_form{action:interviews_path, method:"post", style:"margin-bottom:0;"}
-          = hidden_field_tag(request_forgery_protection_token.to_s, form_authenticity_token)
-          %textarea.poll-target#codearea{autofocus: "true", rows: 10, cols: 20}
-            alert("hello");
-          .pull-right{style: "margin-top:15px;"}
-            %input.btn.btn-large.btn-warning{style: "margin-right:9px; width:70px;", value: "Test"}
-            %input.btn.btn-large.btn-success{type: "submit", value: "Finish", style: "width:100px;"}
-          .clearfix
-    .span4
-      .well
-        %h1 CODE STATUS
-        .alert.alert-error
-          %strong Error!
-          Your code sucks.
-          Failed on test case #8.
+<script type="text/javascript">
 
+var token = "#{ @token }";
+
+$( document ).ready(function() {
+Twilio.Device.setup(token, {debug: true});
+
+Twilio.Device.ready(function (device) {
+$("#log").text("Ready");
+});
+
+Twilio.Device.error(function (error) {
+$("#log").text("Error: " + error.message);
+});
+
+Twilio.Device.connect(function (conn) {
+$("#log").text("Successfully established call");
+});
+
+Twilio.Device.disconnect(function (conn) {
+$("#log").text("Call ended");
+});
+
+function call() {
+Twilio.Device.connect();
+}
+
+function hangup() {
+Twilio.Device.disconnectAll();
+}
+
+function startBtnClick() {
+if ($("#start-btn").text() == "Start") {
+call();
+
+$("#start-btn").text("Finish");
+$("#start-btn").removeClass("btn-success");
+$("#start-btn").addClass("btn-danger");
+$("#start-btn").attr("type","submit");
+} else {
+hangup();
+$("#submit-btn").click();
+}
+}
+
+window.call = call;
+window.startBtnClick = startBtnClick;
+});
+</script>
+
+%input#interview-id{type:"hidden", value:"#{@interview.id}"}
+
+.container
+  = form_for @interview, :html=>{:class=>"code_form"} do |f|
+    = f.hidden_field :code_changes, :class=>"hidden_code_changes"
+    = f.hidden_field :code_timestamps, :class=>"hidden_code_timestamps"
+    .row
+      .span12
+        .well
+          = f.text_field :name, :placeholder => 'Name'
+    .row
+      .span12
+        .well
+          %h1 PROBLEM GOES HERE
+    .row
+      .span8
+        .well
+          = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+          .pull-right{style: "margin-top:15px;"}
+            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
+            .hidden
+              = f.submit :id => "submit-btn"
+          .clearfix
+      .span4
+        .well
+          %h1#show-log CODE STATUS
+          .alert.alert-error
+            %strong Error!
+            Your code sucks.
+            Failed on test case #8.
+
+:coffeescript
+  $(document).ready ->
+    cm = CodeMirror.fromTextArea(
+      $('#codearea').get(0),
+      {
+        theme: "monokai"
+        mode: "ruby"
+        onChange: (c,i) ->
+          $('#codearea').text(cm.getValue())
+      })
+
+    counter = 0
+    log = []
+    polling_interval = 3
+    first_time = 0
+    times = []
+
+    $('.code_form *[type="submit"]').click( (e) ->
+      console.log(log)
+      console.log(JSON.stringify(log))
+      e.preventDefault()
+      $('.code_form .hidden_code_changes').val(JSON.stringify(log))
+      $('.code_form .hidden_code_timestamps').val(JSON.stringify(times))
+      $('.code_form').submit()
+      # $.ajax(
+      #   url: '#{record_path}'
+      #   type: 'POST'
+      #   beforeSend: (xhr) -> xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+      #   data: {
+      #     'id': $('#interview-id').val(),
+      #     'code_changes': JSON.stringify(log),
+      #     'code_timestamps': JSON.stringify(times)
+      #   }
+      #   success: (response) ->
+      #     $('#someDiv').html(response)
+      # )
+    )
+
+    $('#show-log').click( ->
+      console.log(log);
+      console.log(times);
+    )
+
+    # Saving the polled text
+    polling_text = ->
+      # text = $('.poll-target').val()
+      text = cm.getValue();
+      # console.log(text);
+      # console.log(log.length-1)
+      last = log[log.length-1]
+
+      if (text != last)
+        console.log(text)
+        log.push(text)
+        times.push(counter)
+      counter++
+
+    start_recording = ->
+      timer = setInterval(polling_text, polling_interval)
+      console.log('Starting to record!')
+
+    if (first_time == 0)
+      start_recording()
+    first_time = 1
+    
+    # Replay the logged
+    $('.poll-replay').click( () ->
+      times.reverse()
+      log.reverse()
+      clearInterval(timer)
+      $('.poll-target2').val('')
+
+      replay_text
+      counter2 = 0
+
+      replay = ->
+        $('.poll-target2').val(replay_text)
+        if (times.length > 0 && counter2 == times[times.length-1])
+          # times[times.length-1]
+          times.pop()
+          replay_text = log.pop()
+        counter2++
+      setInterval(replay, polling_interval)
+    )
+
+    toggleBtn = (event) ->
+      event.preventDefault()
+      btn = $(this)
+      if btn.text() == "PLAY"
+        btn.text("STOP")
+        btn.removeClass("btn-success")
+        btn.addClass("btn-danger")
+        rec.play()
+      else
+        btn.text("PLAY")
+        btn.removeClass("btn-danger")
+        btn.addClass("btn-success")
+        rec.pause()
+
+    rec = $("#recording")[0]
+    $("#slider").slider(
+      change: (event, ui) ->
+        rec.currentTime = rec.duration * ui.value / 100
+    )
+    
+    $("#play-stop-btn").click(toggleBtn)
+
+:javascript
+  $(function() {
+  });

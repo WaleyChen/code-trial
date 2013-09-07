@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby '1.9.3'
 gem 'rails', '3.2.8'
 
 # Bundle edge Rails instead:
@@ -22,9 +23,12 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 end
 
+gem 'coffee-filter'
+
 gem 'codemirror-rails'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # HAML templates
 gem 'haml-rails'

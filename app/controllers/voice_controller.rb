@@ -13,10 +13,20 @@ class VoiceController < ApplicationController
     end
 
     def recordVoice
+        interview = Interview.new
+        interview.call_sid = params[:CallSid]
+        interview.save
+
         render xml: "
             <Response>
-                <Record timeout=\"60\" transcribe=\"true\" />
+                <Record timeout=\"60\" transcribe=\"true\" action=\"http://codetrial.herokuapp.com/finishedRecording\"/>
             </Response>"
+    end
+
+    def finishedRecording
+        interview = Interview.where(:call_sid => params[:CallSid]).first
+        interview.voice = params[:RecordingUrl]
+        interview.save
     end
 
 end
