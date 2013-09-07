@@ -26,6 +26,7 @@ end
 gem 'codemirror-rails'
 
 gem 'jquery-rails'
+gem 'jquery-ui-rails'
 
 # HAML templates
 gem 'haml-rails'

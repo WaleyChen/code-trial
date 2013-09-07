@@ -13,5 +13,8 @@
 //= require jquery
 //= require jquery_ujs
 //= require twitter/bootstrap
-//
+//= require codemirror
+//= require codemirror/modes/ruby
+//= require codemirror/modes/javascript
+//= require jquery.ui.slider
 //= require_tree .

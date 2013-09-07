@@ -1,0 +1,5 @@
+.container
+  #slider
+  %audio{:controls => "controls", :id => "recording"}
+    %source{:src => "https://api.twilio.com/2010-04-01/Accounts/AC137a01b504ae85a808fc1523cf60cb04/Recordings/REa06a990865415f3b10b45d43be30ec6d", :type => "audio/mpeg"}
+  = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
