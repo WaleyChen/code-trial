@@ -1,7 +1,8 @@
-#home
-    #title
-        CODE TRIAL
-    #desc
-        SHORT DESCRIPTION
-    = link_to "START", new_interview_path, { :class => 'btn' }
-    = link_to "EVALUATE", "", { :class => 'btn' }
+.container
+  .row
+    .span12
+      .landing
+        %h1 CODE TRIAL
+        %h3 CODING INTERVIEWS DONE RIGHT
+        = link_to "START", new_interview_path, { :class => "btn btn-success" }
+        = link_to "EVALUATE", "", { :class => "btn btn-primary" }
