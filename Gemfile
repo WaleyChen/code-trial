@@ -22,6 +22,8 @@ group :assets do
   gem 'twitter-bootstrap-rails'
 end
 
+gem 'codemirror-rails'
+
 gem 'jquery-rails'
 
 # HAML templates

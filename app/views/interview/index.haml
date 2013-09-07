@@ -1,6 +1,15 @@
 .container
   .row
     .span8
-      %h1 VIDEO
+      .well
+        %h1 VIDEO GOES HERE
+        #videoplaceholder
+        %textarea{autofocus: "true", id: "codearea", rows: 10, cols: 20}
+          alert("hello");
     .span4
-      %h1 CODE
+      .well
+        %h1 CODE STATUS
+        .alert.alert-error
+          %strong Error!
+          Your code sucks.
+          Failed on test case #8.
