@@ -1,4 +1,5 @@
 <script type="text/javascript">
+
 var token = "#{ @token }";
 
 $( document ).ready(function() {
@@ -37,11 +38,6 @@ $("#start-btn").removeClass("btn-success");
 $("#start-btn").addClass("btn-danger");
 } else {
 hangup();
-
-$("#start-btn").text("Start")
-$("#start-btn").removeClass("btn-danger");
-$("#start-btn").addClass("btn-success");
-
 $("#submit-btn").click();
 }
 }
@@ -52,32 +48,38 @@ window.startBtnClick = startBtnClick;
 </script>
 
 .container
-  .row
-    .span12
-      .well
-        %h1 PROBLEM GOES HERE
-  .row
-    .span8
-      .well
-        = form_tag testCode_path do
-          = text_area_tag(:codearea, "alert('hello');", { autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+  = form_for @interview do |f|
+    .row
+      .span12
+        .well
+          = f.text_field :name, :placeholder => 'Name'
+    .row
+      .span12
+        .well
+          %h1 PROBLEM GOES HERE
+    .row
+      .span8
+        .well
+          = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
-            = submit_tag "Test", class: "btn btn-stylish btn-large btn-warning", style: "margin-right:9px; width:70px;"
             #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
-              = form_for @interview do |f|
-                = f.submit :id => "submit-btn"
-        .clearfix
-    .span4
-      .well
-        %h1 CODE STATUS
-        .alert.alert-error
-          %strong Error!
-          Your code sucks.
-          Failed on test case #8.
+              = f.submit :id => "submit-btn"
+          .clearfix
+      .span4
+        .well
+          %h1 CODE STATUS
+          .alert.alert-error
+            %strong Error!
+            Your code sucks.
+            Failed on test case #8.
 
 :javascript
   $(function() {
+    CodeMirror.fromTextArea($('#codearea').get(0), {
+    theme: "monokai",
+    mode: "ruby"
+  });
 
     /* START RECORDING KEYSTROKES */
     // Detect when to start polling
