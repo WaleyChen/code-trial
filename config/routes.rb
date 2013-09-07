@@ -63,4 +63,6 @@ SuperRailsBoilerplate::Application.routes.draw do
 
   match 'record/' => 'interviews#record', :as => 'record'
   post 'finishedRecording' => 'voice#finishedRecording'
+  post 'transcribeCallback' => 'voice#transcribeCallback'
+  post 'testCode' => 'interviews#test_code'
 end

@@ -20,11 +20,13 @@
 }
 
 .landing {
+  color: white;
+  text-shadow: 2px 2px 10px rgba(5,5,5,0.5);
   text-align: center;
   margin: 50px;
 
   h1 {
-    font-size: 50px;
+    font-size: 100px;
     font-weight: bold;
     margin: 30px;
   }
@@ -32,8 +34,4 @@
 
 .clearfix {
   clear: both;
-}
-
-tr:hover {
-  cursor: pointer;
 }
