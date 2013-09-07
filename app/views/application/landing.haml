@@ -5,7 +5,7 @@
   .row
     .span12
       .landing
-        %h1 CODE TRIAL
+        %h1 CodeTrial
         %h3 CODING INTERVIEWS DONE RIGHT
-        = link_to "START", new_interview_path, { :class => "btn btn-success btn-large btn-stylish" }
-        = link_to "EVALUATE", interviews_path, { :class => "btn btn-primary btn-large btn-stylish" }
+        = link_to "START", new_interview_path, { :id => "landing-start", :class => "btn btn-large btn-success landing-btns"}
+        = link_to "EVALUATE", interviews_path, { :class => "landing-btns btn btn-large btn-primary" }
