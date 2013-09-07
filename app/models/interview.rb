@@ -1,9 +1,11 @@
-class CodeTrial
+class Interview
   include Mongoid::Document
 
   field :name
-
-  has_many :questions
+  field :question
+  field :voice
+  field :code_changes
+  field :code_timestamps
 
   # seedData = [
   #   'FizzBuzz'
@@ -11,7 +13,7 @@ class CodeTrial
 
   # def self.seed
   #   seedData.each do |seed|
-        
+
   #   end
   # end
 end
