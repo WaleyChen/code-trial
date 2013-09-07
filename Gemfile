@@ -28,6 +28,9 @@ gem 'jquery-rails'
 # HAML templates
 gem 'haml-rails'
 
+# Other
+gem 'twilio-ruby'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
