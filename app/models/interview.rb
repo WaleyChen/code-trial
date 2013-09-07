@@ -3,7 +3,10 @@ class Interview
 
   field :name
   field :question
+
+  field :call_sid
   field :voice
+
   field :code_changes
   field :code_timestamps
 
