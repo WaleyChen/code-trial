@@ -31,6 +31,8 @@ Twilio.Device.disconnectAll();
 
 function startBtnClick() {
 if ($("#start-btn").text() == "Start") {
+
+$("#test-btn").removeClass("hidden");
 call();
 
 $("#start-btn").text("Finish");
@@ -72,7 +74,7 @@ window.startBtnClick = startBtnClick;
             .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
-            #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
+            #test-btn.btn.btn-stylist.btn-large.btn-warning.hidden{ style: "width:70px;"} Test!
             #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
               = f.submit :id => "submit-btn"

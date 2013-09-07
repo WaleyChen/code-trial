@@ -1,4 +1,5 @@
 - if flash[:notice]
+  </br>
   #flash.alert.alert-success= "#{ flash[:notice] }"           
 
 .container#landing
@@ -6,6 +7,6 @@
     .span12
       .landing
         %h1 CodeTrial
-        %h3 CODING INTERVIEWS DONE RIGHT
+        %h3 Saves You Time by Automating Your Technical Phone Interviews
         = link_to "START", new_interview_path, { :id => "landing-start", :class => "btn btn-large btn-success landing-btns"}
         = link_to "EVALUATE", interviews_path, { :class => "landing-btns btn btn-large btn-primary" }
