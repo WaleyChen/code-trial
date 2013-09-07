@@ -13,7 +13,9 @@ class VoiceController < ApplicationController
     end
 
     def recordVoice
-        Interview.where(:call_sid => nil).first.call_sid = params[:CallSid]
+        interview = Interview.where(:call_sid => nil).first
+        interview.call_sid = params[:CallSid]
+        interview.save
 
         render xml: "
             <Response>

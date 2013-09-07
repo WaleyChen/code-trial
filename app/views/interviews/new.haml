@@ -1,3 +1,7 @@
+= javascript_include_tag 'codemirror'
+= javascript_include_tag 'codemirror/modes/ruby'
+= javascript_include_tag 'codemirror/modes/javascript'
+
 <script type="text/javascript">
 var token = "#{ @token }";
 
@@ -37,11 +41,6 @@ $("#start-btn").removeClass("btn-success");
 $("#start-btn").addClass("btn-danger");
 } else {
 hangup();
-
-$("#start-btn").text("Start")
-$("#start-btn").removeClass("btn-danger");
-$("#start-btn").addClass("btn-success");
-
 $("#submit-btn").click();
 }
 }
@@ -52,27 +51,31 @@ window.startBtnClick = startBtnClick;
 </script>
 
 .container
-  .row
-    .span12
-      .well
-        %h1 PROBLEM GOES HERE
-  .row
-    .span8
-      .well
-        = form_for @interview do |f|
+  = form_for @interview do |f|
+    .row
+      .span12
+        .well
+          = f.text_field :name, :placeholder => 'Name'
+    .row
+      .span12
+        .well
+          %h1 PROBLEM GOES HERE
+    .row
+      .span8
+        .well
           = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
             #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
               = f.submit :id => "submit-btn"
-        .clearfix
-    .span4
-      .well
-        %h1 CODE STATUS
-        .alert.alert-error
-          %strong Error!
-          Your code sucks.
-          Failed on test case #8.
+          .clearfix
+      .span4
+        .well
+          %h1 CODE STATUS
+          .alert.alert-error
+            %strong Error!
+            Your code sucks.
+            Failed on test case #8.
 
 :javascript
   $(function() {
