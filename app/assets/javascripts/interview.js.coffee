@@ -35,3 +35,20 @@ $(document).ready ->
     $("#slider").slider("option","value", rec.currentTime/rec.duration * 1000)
 
   $("#play-stop-btn").click(toggleBtn)
+
+  start_wait = 5 * 1000
+  elapsed_time = 0
+  moveProgressBar = ->
+    console.log(elapsed_time)
+    if elapsed_time >= start_wait
+      endProgressBar()
+      setTimeout((-> $("#start-btn").click()), 500)
+    remaining = Math.floor((start_wait - elapsed_time)/start_wait * 100)
+    $(".progress .bar").css("width", "#{remaining}%")
+    elapsed_time = elapsed_time + 100
+  window.endProgressBar = ->
+    clearInterval(move)
+    $(".progress .bar").css("width", "0%")
+
+  if $(".progress .bar").length > 0
+    move = setInterval(moveProgressBar, 100)

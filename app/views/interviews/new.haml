@@ -37,6 +37,7 @@ $("#start-btn").text("Finish");
 $("#start-btn").removeClass("btn-success");
 $("#start-btn").addClass("btn-danger");
 $("#start-btn").attr("type","submit");
+window.endProgressBar();
 } else {
 hangup();
 $("#submit-btn").click();
@@ -63,12 +64,14 @@ window.startBtnClick = startBtnClick;
           %p.lead
             Define a method,
             %em fizzbuzz
-            , that consumes a single integer. If the integer is divisible by 3, return 'fizz'. If it is instead divisible by 5, return 'buzz'. If it is divisible by both 3 
+            , that consumes a single integer. If the integer is divisible by 3, return 'fizz'. If it is instead divisible by 5, return 'buzz'. If it is divisible by both 3
             %strong and
             5, print fizzbuzz. For all other numbers, return nothing.
     .row
       .span8
         .well
+          .progress.progress-striped
+            .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
             #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
@@ -147,7 +150,7 @@ window.startBtnClick = startBtnClick;
     if (first_time == 0)
       start_recording()
     first_time = 1
-    
+
     # Replay the logged
     $('.poll-replay').click( () ->
       times.reverse()
@@ -187,7 +190,7 @@ window.startBtnClick = startBtnClick;
       change: (event, ui) ->
         rec.currentTime = rec.duration * ui.value / 100
     )
-    
+
     $("#play-stop-btn").click(toggleBtn)
 
 :javascript
