@@ -8,7 +8,6 @@ gem 'rails', '3.2.8'
 # use mongoid and MongoDB
 gem 'mongoid'
 gem 'bson_ext'
-gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -29,6 +28,9 @@ gem 'jquery-rails'
 
 # HAML templates
 gem 'haml-rails'
+
+# Other
+gem 'twilio-ruby'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
