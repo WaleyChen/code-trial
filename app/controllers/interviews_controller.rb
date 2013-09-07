@@ -1,6 +1,7 @@
 require 'twilio-ruby'
 
 class InterviewsController < ApplicationController
+
   def index
   end
 
@@ -16,6 +17,13 @@ class InterviewsController < ApplicationController
     capability = Twilio::Util::Capability.new account_sid, auth_token
     capability.allow_client_outgoing demo_app_sid
     @token = capability.generate
+
+    @interview = Interview.new
+  end
+
+  def create
+    flash[:notice] = "Your interview was submitted successfully."
+    redirect_to root_path
   end
 
   def test_code(codestring)

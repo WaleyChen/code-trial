@@ -41,6 +41,8 @@ hangup();
 $("#start-btn").text("Start")
 $("#start-btn").removeClass("btn-danger");
 $("#start-btn").addClass("btn-success");
+
+$("#submit-btn").click();
 }
 }
 
@@ -62,6 +64,9 @@ window.startBtnClick = startBtnClick;
         .pull-right{style: "margin-top:15px;"}
           .btn.btn-stylish.btn-large.btn-warning{style: "margin-right:9px; width:70px;"} Test
           #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
+          .hidden
+            = form_for @interview do |f|
+              = f.submit :id => "submit-btn"
         .clearfix
     .span4
       .well
