@@ -1,14 +1,15 @@
-
-%table.table.table-striped.table-hover.center-table.span8
-    %thead
-        %tr
-            %th="Name"
-            %th="Time"
-    %tbody#interviews
-        - @interviews.each do |interview|
-            %tr{:href => interview_path(interview)}
-                %td= "Vikrem"
-                %td="hello"
+%div.center-table.span12
+    %h2= "Code Trials"
+    %table.table.table-striped.table-hover.center-table.span12
+        %thead
+            %tr
+                %th="Name"
+                %th="Time"
+        %tbody#interviews
+            - @interviews.each do |interview|
+                %tr{:href => interview_path(interview)}
+                    %td= "Vikrem"
+                    %td="hello"
 
 :javascript
     $(document).ready(function() { 
