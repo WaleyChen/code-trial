@@ -59,14 +59,12 @@ window.startBtnClick = startBtnClick;
   .row
     .span8
       .well
-        = form_tag "/hello" do
-          = text_area_tag(:codearea, "alert('hello');", { autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+        = form_for @interview do |f|
+          = f.text_area(:codearea, { value: "alert('hello');", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
-            = submit_tag "Test", class: "btn btn-stylish btn-large btn-warning", style: "margin-right:9px; width:70px;"
             #start-btn.btn.btn-stylish.btn-large.btn-success{ type: "submit", style: "width:70px;", onClick: "startBtnClick();" } Start
             .hidden
-              = form_for @interview do |f|
-                = f.submit :id => "submit-btn"
+              = f.submit :id => "submit-btn"
         .clearfix
     .span4
       .well
