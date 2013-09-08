@@ -9,6 +9,7 @@
             %th="Time"
             %th="Status"
             %th="URL"
+            %th="CallSid"
         %tbody#interviews
           - @interviews.each do |interview|
             %tr{:href => interview_path(interview)}
@@ -25,6 +26,7 @@
                 - else
                   %span.label.label-success Transcript
               %td= interview.url || "#{@url_prefix}/new/#{interview.id}"
+              %td= interview.call_sid
       %div{style:"height:20px;"}
       %center
         #open-modal-btn.btn= link_to "Create New Code Trial", "#"

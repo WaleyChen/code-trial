@@ -7,9 +7,11 @@ $(document).ready ->
   rec = $("#recording")[0]
   $("#slider").slider(
     max: 1000
-    change: (event, ui) ->
+    slide: (event, ui) ->
       unless playing()
+        console.log("silder change")
         rec.currentTime = rec.duration * ui.value / 1000
+        window.setCodeReplayTime(rec.duration * ui.value)
   )
 
   btn = $("#play-stop-btn")
@@ -20,12 +22,14 @@ $(document).ready ->
       btn.removeClass("btn-success")
       btn.addClass("btn-danger")
       rec.play()
+      window.startCodeReplay()
       sync = setInterval(syncSildebar, 30)
     else
       btn.text("PLAY")
       btn.removeClass("btn-danger")
       btn.addClass("btn-success")
       rec.pause()
+      window.stopCodeReplay()
       clearInterval(sync)
 
   playing = ->

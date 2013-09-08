@@ -4,7 +4,7 @@
     %source{:src => @interview.voice, :type => "audio/mpeg"}
   = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
   %h3 Transcription
-  = @interview.transcription 
+  = @interview.transcription
 
   .hidden
     %textarea#code_changes
@@ -27,7 +27,6 @@ $(document).ready ->
       mode: "ruby"
       readOnly: true
     })
-  console.log('hi')
 
   polling_interval = 3
 
@@ -35,13 +34,11 @@ $(document).ready ->
   log = $.parseJSON(log)
   times = $('#code_timestamps').text()
   times = $.parseJSON(times)
-  log.reverse()
-  times.reverse()
 
-  log.pop()
-  times.pop()
+  log.shift()
+  times.shift()
 
-  offset = times[times.length-1]
+  offset = times[0]
 
   `for (var i=0; i<times.length; i++) {
     times[i] = times[i] - offset
@@ -49,22 +46,38 @@ $(document).ready ->
   console.log(log)
   console.log(times)
 
-  $('#poll-replay').click( ->
+  counter = 0
+  idx = 0
+  codePlaying = null
+  window.startCodeReplay = ->
     $('.poll-replay-target').val('')
-
-    replay_text = ''
-    counter2 = 0
-
+    cm.setValue(log[idx]) if log[idx]
     replay = ->
-      console.log('reverse')
-      # $('.poll-replay-target').val(replay_text)
-      cm.setValue(replay_text)
-      if (times.length > 0 && counter2 == times[times.length-1])
-        times.pop()
-        replay_text = log.pop()
+      console.log("code replay")
+      if (times.length > 0 && counter == times[idx])
+        replay_text = log[idx]
+        cm.setValue(log[idx])
+        idx++
         $('.poll-replay-target').focus()
-      counter2++
+      counter++
+    codePlaying = setInterval(replay, polling_interval)
 
-    setInterval(replay, polling_interval)
-  )
+  window.stopCodeReplay = ->
+    clearInterval(codePlaying)
 
+  window.setCodeReplayTime = (time) ->
+    counter = Math.floor(time/3)
+    idx = nextIdx(counter)
+    if idx is (times.length-1)
+      cm.setValue(log[idx])
+    else
+      cm.setValue(log[idx-1])
+
+  nextIdx = (cnt) ->
+    i = 0
+    for c in times
+      if c <= cnt
+        i++
+      else
+        return i
+    return times.length-1
