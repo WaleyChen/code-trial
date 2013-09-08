@@ -27,7 +27,6 @@ $(document).ready ->
       mode: "ruby"
       readOnly: true
     })
-  console.log('hi')
 
   polling_interval = 3
 
@@ -40,8 +39,6 @@ $(document).ready ->
   times.shift()
 
   offset = times[0]
-  console.log('OFFSET')
-  console.log(offset)
 
   `for (var i=0; i<times.length; i++) {
     times[i] = times[i] - offset
@@ -51,30 +48,30 @@ $(document).ready ->
 
   counter = 0
   idx = 0
-  $('#poll-replay').click( ->
+  codePlaying = null
+  window.startCodeReplay = ->
     $('.poll-replay-target').val('')
-
-    replay_text = ''
-
+    cm.setValue(log[idx]) if log[idx]
     replay = ->
-      console.log('reverse')
-      # $('.poll-replay-target').val(replay_text)
-      cm.setValue(replay_text)
+      console.log("code replay")
       if (times.length > 0 && counter == times[idx])
         replay_text = log[idx]
+        cm.setValue(log[idx])
         idx++
         $('.poll-replay-target').focus()
       counter++
+    codePlaying = setInterval(replay, polling_interval)
 
-    setInterval(replay, polling_interval)
-  )
+  window.stopCodeReplay = ->
+    clearInterval(codePlaying)
 
   window.setCodeReplayTime = (time) ->
-    alert "fweif"
-    counter = time/3
+    counter = Math.floor(time/3)
     idx = nextIdx(counter)
-    cm.setValue(log[idx-1])
-    alert idx
+    if idx is (times.length-1)
+      cm.setValue(log[idx])
+    else
+      cm.setValue(log[idx-1])
 
   nextIdx = (cnt) ->
     i = 0
@@ -83,3 +80,4 @@ $(document).ready ->
         i++
       else
         return i
+    return times.length-1
