@@ -12,4 +12,6 @@ SuperRailsBoilerplate::Application.routes.draw do
   post 'transcribeCallback' => 'voice#transcribeCallback'
   post 'testCode' => 'interviews#test_code'
 
+  match 'interviews2/' => 'interviews#index2', :as => 'index2'
+
 end

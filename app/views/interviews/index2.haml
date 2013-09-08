@@ -1,0 +1,53 @@
+.container
+  .row
+    .span12
+      %h2= "Code Trials"
+      %table.table.table-striped.table-hover.center-table.span12
+        %thead
+          %tr
+            %th="Name"
+            %th="Time"
+            %th="Status"
+            %th="URL"
+        %tbody#interviews
+          - @interviews.each do |interview|
+            %tr{:href => interview_path(interview)}
+              %td= interview.name || ["Eddie", "Waley", "Hong", "Vikrem"].sample(1)[0]
+              %td= interview.voice_duration
+              %td
+                - if interview.voice.nil?
+                  %span.label.label-warning Processing Voice
+                - else
+                  %span.label.label-success Voice
+
+                - if interview.transcription.nil?
+                  %span.label.label-warning Processing Transcript
+                - else
+                  %span.label.label-success Transcript
+              %td= interview.url || "#{@url_prefix}/new/#{interview.id}"
+      %div{style:"height:20px;"}
+      %center
+        #open-modal-btn.btn= link_to "Create New Code Trial", "#"
+
+#create-modal.modal.hide.fade
+  .modal-header
+    %button.close{ :type => "button", "data-dismiss" => "modal", "aria-hidden"=> "true"}x
+    %h3 Create New Code Trial
+  .modal-body
+    = form_tag "/interviews/new_question"
+    %h3 Interviewee's Name
+    = text_field "interview", "name"
+    %h3 Problem
+    = text_area "interview", "question"
+  .modal-footer
+    %a.btn{"data-dismiss" => "modal", :href => "#"}Close
+    = submit_tag "Submit", class: "btn btn-primary", id: "submit-question"
+
+%div{style:"height:120px;"}
+
+:javascript
+    $(document).ready(function() {
+        $("tr").click( function(event) {
+            window.open($(this).attr('href'), '_self', false)
+        });
+    });

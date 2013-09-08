@@ -7,6 +7,11 @@ class InterviewsController < ApplicationController
     @url_prefix = request.original_url
   end
 
+  def index2
+    @interviews = Interview.all
+    @url_prefix = request.original_url
+  end
+
   def show
     @interview = Interview.where(:id => params[:id]).first
   end
