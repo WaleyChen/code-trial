@@ -1,13 +1,13 @@
 .container
-  #slider
   %audio.hidden{:controls => "controls", :id => "recording"}
     %source{:src => @interview.voice, :type => "audio/mpeg"}
-  = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
   .row
     .span6
-      %input#poll-replay{type:"button", value:"Replay"}
       %textarea{ autofocus:"true", id:'codearea', rows:10, cols:20, class: 'poll-replay-target' }
         = "Click the button to see what the interviewee wrote"
+      %a{ :id => "play-stop-btn", :class => "btn btn-inverse btn-small", style: 'float: left; display: inline-block' }
+        %i.icon-white.icon-play{style: 'line-height: 200px'}
+      #slider{style: 'float:right; width: 85%; display: inline; margin-top: 13px; box-shadow: 0px 2px 12px rgba(7,7,7, 0.2)'}
     .span6
       %h3 Transcription
       .well
