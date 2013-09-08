@@ -11,6 +11,8 @@ production:
   sessions:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
+      username: heroku
+      password: testtest
       options:
         skip_version_check: true
         safe: true
