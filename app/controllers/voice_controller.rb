@@ -6,7 +6,7 @@ class VoiceController < ApplicationController
         account_sid = 'AC137a01b504ae85a808fc1523cf60cb04'
         auth_token = 'd6cdac5ab028c8051187a76e2fbace0b'
         # This application sid will play a Welcome Message.
-        demo_app_sid = 'AP244ce8f18416aa34561138d5379f2b40'
+        demo_app_sid = 'AP86e8cd5db5c1b3947c06ff918949af3b'
         capability = Twilio::Util::Capability.new account_sid, auth_token
         capability.allow_client_outgoing demo_app_sid
         @token = capability.generate
