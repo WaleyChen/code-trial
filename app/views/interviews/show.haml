@@ -5,3 +5,57 @@
   = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
   %h3 Transcription
   = @interview.transcription 
+
+  .hidden
+    %textarea#code_changes
+      = @interview.code_changes
+  .hidden
+    %textarea#code_timestamps
+      = @interview.code_timestamps
+
+  %input#poll-replay{type:"button", value:"Replay"}
+  %textarea{ autofocus:"true", id:'codearea', rows:10, cols:20, class: 'poll-replay-target' }
+    = "Click the button to see what the interviewee wrote"
+
+:coffeescript
+$(document).ready ->
+  console.log($('#codearea').val())
+  cm = CodeMirror.fromTextArea(
+    $('#codearea').get(0),
+    {
+      theme: "monokai"
+      mode: "ruby"
+      readOnly: true
+    })
+  console.log('hi')
+
+  polling_interval = 3
+
+  log = $('#code_changes').text()
+  log = $.parseJSON(log)
+  times = $('#code_timestamps').text()
+  times = $.parseJSON(times)
+  log.reverse()
+  times.reverse()
+  console.log(log)
+  console.log(times)
+
+  $('#poll-replay').click( ->
+    $('.poll-replay-target').val('')
+
+    replay_text = ''
+    counter2 = 0
+
+    replay = ->
+      console.log('reverse')
+      # $('.poll-replay-target').val(replay_text)
+      cm.setValue(replay_text)
+      if (times.length > 0 && counter2 == times[times.length-1])
+        times.pop()
+        replay_text = log.pop()
+        $('.poll-replay-target').focus()
+      counter2++
+
+    setInterval(replay, polling_interval)
+  )
+

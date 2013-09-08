@@ -177,26 +177,6 @@ window.startBtnClick = startBtnClick;
       start_recording()
     first_time = 1
 
-    # Replay the logged
-    $('.poll-replay').click( () ->
-      times.reverse()
-      log.reverse()
-      clearInterval(timer)
-      $('.poll-target2').val('')
-
-      replay_text
-      counter2 = 0
-
-      replay = ->
-        $('.poll-target2').val(replay_text)
-        if (times.length > 0 && counter2 == times[times.length-1])
-          # times[times.length-1]
-          times.pop()
-          replay_text = log.pop()
-        counter2++
-      setInterval(replay, polling_interval)
-    )
-
     toggleBtn = (event) ->
       event.preventDefault()
       btn = $(this)
