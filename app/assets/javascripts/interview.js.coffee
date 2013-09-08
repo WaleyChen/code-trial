@@ -52,3 +52,9 @@ $(document).ready ->
 
   if $(".progress .bar").length > 0
     move = setInterval(moveProgressBar, 100)
+
+  $("#open-modal-btn").click ->
+    $("#create-modal").modal('show')
+  $("#submit-question").click ->
+    $("#create-modal").modal('hide')
+

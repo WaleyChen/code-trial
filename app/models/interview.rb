@@ -3,6 +3,7 @@ class Interview
 
   field :name
   field :time
+  field :url
 
   field :question
 

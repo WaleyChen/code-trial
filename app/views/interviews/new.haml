@@ -59,18 +59,21 @@ window.startBtnClick = startBtnClick;
         .well
           %h1 Problem
           %p.lead
-            Define a method,
-            %em fizzbuzz
-            , that consumes a single integer. If the integer is divisible by 3, return 'fizz'. If it is instead divisible by 5, return 'buzz'. If it is divisible by both 3
-            %strong and
-            5, print fizzbuzz. For all other numbers, return nothing.
+            - if @interview.question
+              = @interview.question
+            - else
+              Define a method,
+              %em fizzbuzz
+              , that consumes a single integer. If the integer is divisible by 3, return 'fizz'. If it is instead divisible by 5, return 'buzz'. If it is divisible by both 3
+              %strong and
+              5, print fizzbuzz. For all other numbers, return nothing.
     .row
       .span8
         .well
           .progress.progress-striped
             <<< Starting in...
             .bar{ :style=> "width: 100%;"}
-          = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+          = f.text_area(:codearea, { value: @interview.question ? "" : "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           .pull-right{style: "margin-top:15px;"}
             #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
             #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
@@ -146,7 +149,7 @@ window.startBtnClick = startBtnClick;
         times.push(counter)
       counter++
 
-    removeFeedback = () -> 
+    removeFeedback = () ->
       elem = $('#code-feedback > .alert:first')
       if(elem.length == 0)
         return
@@ -154,7 +157,7 @@ window.startBtnClick = startBtnClick;
         elem.remove()
         removeFeedback())
 
-    makenotice = (jsonData) -> 
+    makenotice = (jsonData) ->
       jsonData = [].concat jsonData
       for testresult in jsonData
         styles = ""
