@@ -9,6 +9,7 @@ class Interview
 
   field :call_sid
   field :voice
+  field :voice_duration
   field :transcription
 
   field :code_changes

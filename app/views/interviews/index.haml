@@ -12,8 +12,8 @@
         %tbody#interviews
           - @interviews.each do |interview|
             %tr{:href => interview_path(interview)}
-              %td= interview.name || "Vikrem"
-              %td= interview.time || "hello"
+              %td= interview.name || ["Eddie", "Waley", "Hong", "Vikrem"].sample(1)[0]
+              %td= interview.voice_duration
               %td
                 %span.label.label-warning Incomplete
               %td= interview.url || "#{@url_prefix}new/#{interview.id}"

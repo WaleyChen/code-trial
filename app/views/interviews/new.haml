@@ -31,6 +31,8 @@ Twilio.Device.disconnectAll();
 
 function startBtnClick() {
 if ($("#start-btn").text() == "Start") {
+$("#record").addClass("recording");
+$("#test-btn").removeClass("hidden");
 call();
 $("#start-btn").hide();
 $("#code-submit").show();
@@ -74,9 +76,16 @@ window.startBtnClick = startBtnClick;
             <<< Starting in...
             .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: @interview.question ? "" : "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+          <img id="record" width="42" height="42" style="margin-top: 0px" src="/assets/mic128.png">
+
+
+          <div id="voice-recorder">
+          <canvas id="analyser" width="400" height="42"></canvas>
+          </div>
+
           .pull-right{style: "margin-top:15px;"}
             #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
-            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
+            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick(); toggleRecording(this);"} Start
             #code-submit.btn.btn-stylish.btn-large.btn-danger{ style: "width:70px;display:none;" } Finish
             .hidden
               = f.submit :id => "submit-btn"
@@ -180,26 +189,6 @@ window.startBtnClick = startBtnClick;
       start_recording()
     first_time = 1
 
-    # Replay the logged
-    $('.poll-replay').click( () ->
-      times.reverse()
-      log.reverse()
-      clearInterval(timer)
-      $('.poll-target2').val('')
-
-      replay_text
-      counter2 = 0
-
-      replay = ->
-        $('.poll-target2').val(replay_text)
-        if (times.length > 0 && counter2 == times[times.length-1])
-          # times[times.length-1]
-          times.pop()
-          replay_text = log.pop()
-        counter2++
-      setInterval(replay, polling_interval)
-    )
-
     toggleBtn = (event) ->
       event.preventDefault()
       btn = $(this)
@@ -223,5 +212,4 @@ window.startBtnClick = startBtnClick;
     $("#play-stop-btn").click(toggleBtn)
 
 :javascript
-  $(function() {
-  });
+
