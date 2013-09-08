@@ -1,10 +1,17 @@
 .container
   #slider
-  %audio{:controls => "controls", :id => "recording"}
+  %audio.hidden{:controls => "controls", :id => "recording"}
     %source{:src => @interview.voice, :type => "audio/mpeg"}
   = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
-  %h3 Transcription
-  = @interview.transcription
+  .row
+    .span6
+      %input#poll-replay{type:"button", value:"Replay"}
+      %textarea{ autofocus:"true", id:'codearea', rows:10, cols:20, class: 'poll-replay-target' }
+        = "Click the button to see what the interviewee wrote"
+    .span6
+      %h3 Transcription
+      .well
+        = @interview.transcription || "No transcription is available for this interview."
 
   .hidden
     %textarea#code_changes
@@ -13,9 +20,6 @@
     %textarea#code_timestamps
       = @interview.code_timestamps
 
-  %input#poll-replay{type:"button", value:"Replay"}
-  %textarea{ autofocus:"true", id:'codearea', rows:10, cols:20, class: 'poll-replay-target' }
-    = "Click the button to see what the interviewee wrote"
 
 :coffeescript
 $(document).ready ->
