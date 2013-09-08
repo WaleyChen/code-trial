@@ -183,12 +183,10 @@ window.startBtnClick = startBtnClick;
       timer = setInterval(polling_text, polling_interval)
       console.log('Starting to record!')
 
-    $('#codearea').bind('input propertychange', (e) ->
-      console.log('polling starting')
-      if (first_time == 0)
-        start_recording()
-      first_time = 1
-    )
+    console.log('polling starting')
+    if (first_time == 0)
+      start_recording()
+    first_time = 1
 
     toggleBtn = (event) ->
       event.preventDefault()
