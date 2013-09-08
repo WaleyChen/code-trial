@@ -24,7 +24,7 @@
                   %span.label.label-warning Processing Transcript
                 - else
                   %span.label.label-success Transcript
-              %td= interview.url || "#{@url_prefix}new/#{interview.id}"
+              %td= interview.url || "#{@url_prefix}/new/#{interview.id}"
       %div{style:"height:20px;"}
       %center
         #open-modal-btn.btn= link_to "Create New Code Trial", "#"
