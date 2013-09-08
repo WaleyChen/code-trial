@@ -17,7 +17,9 @@
               %td
                 %span.label.label-warning Incomplete
               %td= interview.url || "#{@url_prefix}new/#{interview.id}"
-      #open-modal-btn.btn= link_to "Create New Code Trial", "#"
+      %div{style:"height:20px;"}
+      %center
+        #open-modal-btn.btn= link_to "Create New Code Trial", "#"
 
 #create-modal.modal.hide.fade
   .modal-header
@@ -32,6 +34,8 @@
   .modal-footer
     %a.btn{"data-dismiss" => "modal", :href => "#"}Close
     = submit_tag "Submit", class: "btn btn-primary", id: "submit-question"
+
+%div{style:"height:120px;"}
 
 :javascript
     $(document).ready(function() {
