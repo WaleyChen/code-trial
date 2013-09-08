@@ -4,7 +4,7 @@
     %source{:src => @interview.voice, :type => "audio/mpeg"}
   = link_to "PLAY", "", { :id => "play-stop-btn", :class => "btn btn-success" }
   %h3 Transcription
-  = @interview.transcription 
+  = @interview.transcription
 
   .hidden
     %textarea#code_changes
@@ -35,13 +35,13 @@ $(document).ready ->
   log = $.parseJSON(log)
   times = $('#code_timestamps').text()
   times = $.parseJSON(times)
-  log.reverse()
-  times.reverse()
 
-  log.pop()
-  times.pop()
+  log.shift()
+  times.shift()
 
-  offset = times[times.length-1]
+  offset = times[0]
+  console.log('OFFSET')
+  console.log(offset)
 
   `for (var i=0; i<times.length; i++) {
     times[i] = times[i] - offset
@@ -49,22 +49,37 @@ $(document).ready ->
   console.log(log)
   console.log(times)
 
+  counter = 0
+  idx = 0
   $('#poll-replay').click( ->
     $('.poll-replay-target').val('')
 
     replay_text = ''
-    counter2 = 0
 
     replay = ->
       console.log('reverse')
       # $('.poll-replay-target').val(replay_text)
       cm.setValue(replay_text)
-      if (times.length > 0 && counter2 == times[times.length-1])
-        times.pop()
-        replay_text = log.pop()
+      if (times.length > 0 && counter == times[idx])
+        replay_text = log[idx]
+        idx++
         $('.poll-replay-target').focus()
-      counter2++
+      counter++
 
     setInterval(replay, polling_interval)
   )
 
+  window.setCodeReplayTime = (time) ->
+    alert "fweif"
+    counter = time/3
+    idx = nextIdx(counter)
+    cm.setValue(log[idx-1])
+    alert idx
+
+  nextIdx = (cnt) ->
+    i = 0
+    for c in times
+      if c <= cnt
+        i++
+      else
+        return i
