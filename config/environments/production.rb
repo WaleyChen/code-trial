@@ -1,6 +1,10 @@
 SuperRailsBoilerplate::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
+  config.middleware.insert_after(::Rack::Lock, "::Rack::Auth::Basic", "Production") do |u, p|
+    [u, p] == [ENV['USERNAME'], ENV['PASSWORD']]
+  end
+
   # Code is not reloaded between requests
   config.cache_classes = true
 
