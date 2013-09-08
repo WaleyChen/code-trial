@@ -70,6 +70,7 @@ window.startBtnClick = startBtnClick;
       .span8
         .well
           .progress.progress-striped
+            <<< Starting in...
             .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
           <img id="record" width="42" height="42" style="margin-top: 0px" src="/assets/mic128.png">
@@ -184,26 +185,6 @@ window.startBtnClick = startBtnClick;
     if (first_time == 0)
       start_recording()
     first_time = 1
-
-    # Replay the logged
-    $('.poll-replay').click( () ->
-      times.reverse()
-      log.reverse()
-      clearInterval(timer)
-      $('.poll-target2').val('')
-
-      replay_text
-      counter2 = 0
-
-      replay = ->
-        $('.poll-target2').val(replay_text)
-        if (times.length > 0 && counter2 == times[times.length-1])
-          # times[times.length-1]
-          times.pop()
-          replay_text = log.pop()
-        counter2++
-      setInterval(replay, polling_interval)
-    )
 
     toggleBtn = (event) ->
       event.preventDefault()

@@ -61,7 +61,7 @@ HDOC
       render json: eval(code + run_code)
     end.call
   rescue Exception => e
-    render json: { status: false, text: e.message }
+    render json: { status: false, text: "Fatal error! " + e.message }
   end
 
 
