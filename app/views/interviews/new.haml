@@ -48,8 +48,6 @@ window.startBtnClick = startBtnClick;
 
 %input#interview-id{type:"hidden", value:"#{@interview.id}"}
 
-= @interview.id
-
 .container
   = form_for @interview, :html=>{:class=>"code_form"} do |f|
     = f.hidden_field :code_changes, :class=>"hidden_code_changes"
@@ -173,9 +171,12 @@ window.startBtnClick = startBtnClick;
       timer = setInterval(polling_text, polling_interval)
       console.log('Starting to record!')
 
-    if (first_time == 0)
-      start_recording()
-    first_time = 1
+    $('#codearea').bind('input propertychange', (e) ->
+      console.log('polling starting')
+      if (first_time == 0)
+        start_recording()
+      first_time = 1
+    )
 
     toggleBtn = (event) ->
       event.preventDefault()
