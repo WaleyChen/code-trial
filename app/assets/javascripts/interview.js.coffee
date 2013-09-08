@@ -15,24 +15,25 @@ $(document).ready ->
   )
 
   btn = $("#play-stop-btn")
-  icon = btn.children("i")
   toggleBtn = (event) ->
     event.preventDefault()
-    if icon.hasClass("icon-play")
-      icon.removeClass("icon-play")
-      icon.addClass("icon-stop")
+    if btn.text() == "PLAY"
+      btn.text("STOP")
+      btn.removeClass("btn-success")
+      btn.addClass("btn-danger")
       rec.play()
       window.startCodeReplay()
       sync = setInterval(syncSildebar, 30)
     else
-      icon.removeClass("icon-stop")
-      icon.addClass("icon-play")
+      btn.text("PLAY")
+      btn.removeClass("btn-danger")
+      btn.addClass("btn-success")
       rec.pause()
       window.stopCodeReplay()
       clearInterval(sync)
 
   playing = ->
-    icon.hasClass("icon-stop")
+    btn.text() == "STOP"
 
   syncSildebar = ->
     $("#slider").slider("option","value", rec.currentTime/rec.duration * 1000)
