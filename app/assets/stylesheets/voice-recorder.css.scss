@@ -1,0 +1,38 @@
+#voice-recorder {
+    canvas { 
+        display: inline-block; 
+        background: #202020; 
+        box-shadow: 0px 0px 10px blue;
+    }
+
+    form {
+        display: none;
+    }
+
+    button, img {
+        vertical-align: top !important;
+    }
+
+    #record.recording { 
+        background: red;
+        background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,#f5f5f5 75%,#f5f5f5 100%,#7db9e8 100%); 
+    }
+}
+
+    #record.recording { 
+        background: red;
+        background: -webkit-radial-gradient(center, ellipse cover, #ff0000 0%,#f5f5f5 75%,#f5f5f5 100%,#7db9e8 100%); 
+    }
+
+    #record, #voice-recorder {
+        display: inline-block !important; 
+    }
+
+   #record {
+        margin-bottom: 30px;
+   }
+
+    #voice-recorder {
+        margin-left: 30px;
+        margin-top: 20px;
+    }

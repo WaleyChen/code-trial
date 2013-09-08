@@ -39,10 +39,10 @@ $(document).ready ->
   start_wait = 5 * 1000
   elapsed_time = 0
   moveProgressBar = ->
-    console.log(elapsed_time)
+    # console.log(elapsed_time)
     if elapsed_time >= start_wait
       endProgressBar()
-      setTimeout((-> $("#start-btn").click()), 500)
+      # setTimeout((-> $("#start-btn").click()), 500)
     remaining = Math.floor((start_wait - elapsed_time)/start_wait * 100)
     $(".progress .bar").css("width", "#{remaining}%")
     elapsed_time = elapsed_time + 100
@@ -52,3 +52,9 @@ $(document).ready ->
 
   if $(".progress .bar").length > 0
     move = setInterval(moveProgressBar, 100)
+
+  $("#open-modal-btn").click ->
+    $("#create-modal").modal('show')
+  $("#submit-question").click ->
+    $("#create-modal").modal('hide')
+

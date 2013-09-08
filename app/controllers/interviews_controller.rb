@@ -4,6 +4,7 @@ class InterviewsController < ApplicationController
 
   def index
     @interviews = Interview.all
+    @url_prefix = request.original_url
   end
 
   def show
@@ -20,20 +21,29 @@ class InterviewsController < ApplicationController
     capability.allow_client_outgoing demo_app_sid
     @token = capability.generate
 
-    @interview = Interview.new
+    if params[:id]
+      @interview = Interview.find(params[:id])
+    else
+      @interview = Interview.new
+    end
   end
 
   def create
-    puts 'ASDF'
-    puts params[:interview]
     @interview = Interview.last
     @interview.update_attributes(params[:interview])
-    puts @interview.id
-    puts @interview.inspect
     @interview.save
 
     flash[:notice] = "Your interview was submitted successfully."
     redirect_to root_path
+  end
+
+  def create_from_question
+    @interview = Interview.create(params[:interview])
+    @interview.url = "#{request.original_url}/#{@interview.id}"
+    respond_to do |format|
+      format.html { redirect_to interviews_path }
+      format.json { render json: @interview }
+    end
   end
 
   def test_code
@@ -56,16 +66,13 @@ end
 final_res
 HDOC
 
-  begin
-    lambda do
-      render json: eval(code + run_code)
-    end.call
-  rescue Exception => e
-    render json: { status: false, text: "Fatal error! " + e.message }
-  end
-
-
-  
+    begin
+      lambda do
+        render json: eval(code + run_code)
+      end.call
+    rescue Exception => e
+      render json: { status: false, text: "Fatal error! " + e.message }
+    end
   end
 
   def record
