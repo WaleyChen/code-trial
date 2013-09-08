@@ -15,7 +15,15 @@
               %td= interview.name || ["Eddie", "Waley", "Hong", "Vikrem"].sample(1)[0]
               %td= interview.voice_duration
               %td
-                %span.label.label-warning Incomplete
+                - if interview.voice.nil?
+                  %span.label.label-warning Processing Voice
+                - else
+                  %span.label.label-success Voice
+
+                - if interview.transcription.nil?
+                  %span.label.label-warning Processing Transcript
+                - else
+                  %span.label.label-success Transcript
               %td= interview.url || "#{@url_prefix}new/#{interview.id}"
       %div{style:"height:20px;"}
       %center
