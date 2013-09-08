@@ -31,7 +31,7 @@ Twilio.Device.disconnectAll();
 
 function startBtnClick() {
 if ($("#start-btn").text() == "Start") {
-
+$("#record").addClass("recording");
 $("#test-btn").removeClass("hidden");
 call();
 $("#start-btn").hide();
@@ -72,9 +72,16 @@ window.startBtnClick = startBtnClick;
           .progress.progress-striped
             .bar{ :style=> "width: 100%;"}
           = f.text_area(:codearea, { value: "def fizzbuzz(n)\n\t# Code goes here\nend\n", autofocus: "true", id: 'codearea', rows: 10, cols: 20, class: 'poll-target' })
+          <img id="record" width="42" height="42" style="margin-top: 0px" src="/assets/mic128.png">
+
+
+          <div id="voice-recorder">
+          <canvas id="analyser" width="400" height="42"></canvas>
+          </div>
+
           .pull-right{style: "margin-top:15px;"}
-            #test-btn.btn.btn-stylist.btn-large.btn-warning.hidden{ style: "width:70px;"} Test!
-            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick();" } Start
+            #test-btn.btn.btn-stylist.btn-large.btn-warning{ style: "width:70px;"} Test!
+            #start-btn.btn.btn-stylish.btn-large.btn-success{ style: "width:70px;", onClick: "startBtnClick(); toggleRecording(this);"} Start
             #code-submit.btn.btn-stylish.btn-large.btn-danger{ style: "width:70px;display:none;" } Finish
             .hidden
               = f.submit :id => "submit-btn"
@@ -221,5 +228,4 @@ window.startBtnClick = startBtnClick;
     $("#play-stop-btn").click(toggleBtn)
 
 :javascript
-  $(function() {
-  });
+

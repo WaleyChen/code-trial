@@ -5,7 +5,7 @@
         %thead
             %tr
                 %th="Name"
-                %th="Time"
+                %th="Time (Seconds)"
         %tbody#interviews
             - @interviews.each do |interview|
                 %tr{:href => interview_path(interview)}
