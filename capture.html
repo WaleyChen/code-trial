@@ -1,0 +1,81 @@
+<html>
+<head>
+</head>
+<body>
+  <style>
+    textarea {
+      width: 300px;
+      height: 100px;
+    }
+    #poll-stop, #poll-replay {
+      display: block;
+      padding-top: 10px;
+      width: 160px;
+    }
+  </style>
+  <textarea id="poll-target"></textarea>
+  <textarea id="poll-target2"></textarea>
+  <input id="poll-replay" type="button" value="Replay">
+
+  <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+  <script>
+  var interval;
+  var timer;
+  var counter=0;
+  var times = [];
+  var log = [];
+  var polling_interval = 3;
+  var first_time = 0;
+  
+  $(function() {
+
+    // Detect when to start polling
+    $('#poll-target').bind('input propertychange', function() {
+      if (first_time == 0) {
+        start_recording();
+      }
+      first_time = 1;
+    });
+
+    function start_recording() { timer = setInterval(polling_text, polling_interval); }
+
+    // Saving the polled text
+    function polling_text() {
+      var text = $('#poll-target').val();
+      var last = log[log.length-1];
+      if (text != last) {
+        log.push(text);
+        times.push(counter);
+      }
+      counter++;
+    }
+    
+    // Replay the logged
+    $('#poll-replay').click(function() {
+      times.reverse();
+      log.reverse();
+      clearInterval(timer);
+      $('#poll-target2').val('');
+
+      var replay_text;
+      var counter2=0;
+
+      function replay() {
+        $('#poll-target2').val(replay_text);
+        if (times.length > 0 && counter2 == times[times.length-1]) {
+          // times[times.length-1]
+          times.pop();
+          replay_text = log.pop();
+        }
+        counter2++;
+      }
+
+      setInterval(replay, polling_interval);
+
+    });
+
+  });
+
+  </script>
+</body>
+</html>
